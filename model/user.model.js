@@ -9,7 +9,7 @@ const userModel = mongoose.Schema({
         type: String,
         required: true
     },
-    hasePassword: {
+    password: {
         type: String,
         required: true
     },

@@ -3,7 +3,7 @@ const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;
     const accessTokenSecret = process.env.JWT_SECRET
     if (!authHeader) {
-        res.status(400).json({ message: "please enter Jwt-Token" })
+        return res.status(400).json({ message: "please enter Jwt-Token" })
     }
     if (authHeader) {
         const token = authHeader.split(' ')[1];
