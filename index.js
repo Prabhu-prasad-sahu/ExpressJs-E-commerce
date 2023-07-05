@@ -10,7 +10,6 @@ const order_item = require("./Router/order.router")
 const cors = require("cors")
 const authJwt = require("./middleware/jwt-auth")
 const expressjwt = require("./middleware/express-auth")
-let { expressjwt: jwt } = require("express-jwt")
 
 
 let port = process.env.PORT
@@ -22,14 +21,13 @@ app.options("*", cors())
 //middleware
 app.use(express.json())
 app.use(morgan('tiny'))
-// app.use(expressjwt())
 // app.use(authJwt)
 
 //router
-app.use("/product", productRouter)
-app.use("/category", categoryRouter)
+app.use("/product", authJwt, productRouter)
+app.use("/category", authJwt, categoryRouter)
 app.use("/user", userRouter)
-app.use("/order", order_item)
+app.use("/order", authJwt, order_item)
 
 
 

@@ -49,8 +49,7 @@ router.post("/register", async (req, rsp) => {
             }
             const message = "varyfy email please"
             await sendEmail(userData.email, "Verify Email", message);
-            // return rsp.send("An Email sent to your account please verify");
-            // return rsp.status(200).json({ createdUser: userData })
+            return rsp.status(200).json({ message: "An Email sent to your account please verify", createdUser: userData })
         }
         rsp.status(501).json("user alrady exist")
 
@@ -66,7 +65,7 @@ router.post("/login", async (req, rsp) => {
         if (!userData) {
             return rsp.status(404).json({ data: "user not found" })
         }
-        if (userData && (await bcrypt.compare(password, userData.password))) {
+        if (userData && await bcrypt.compare(password, userData.password)) {
             const token = jwt.sign({
                 userid: userData.id,
                 isAdmin: userData.isAdmin
@@ -80,7 +79,8 @@ router.post("/login", async (req, rsp) => {
             return rsp.status(500).json("please varify your password")
         }
     } catch (error) {
-        rsp.status(400).json({ err: error })
+        console.log(error);
+        // rsp.status(400).json({ err: error })
 
     }
 })
